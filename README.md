@@ -1,7 +1,7 @@
 <img src="https://github.com/linesma/manjaroptimus-appindicator/blob/master/Logo/manjaroptimus-logo02b.png" align="left" width="256" />
 
-# Manjaro-Optimus Indicator
-## Indicator and GUI switch for Optimus-Switch on Manjaro that works in multiple Desktop Environments.
+# Manjaro-Optimus Indicator GDM
+## Indicator and GUI switch for Optimus-Switch on Manjaro that works with Gnome running Wayland.
 </br>
 
 
@@ -21,44 +21,18 @@ Thank you also goes to the members of the Manjaro forums who took the time to he
 
 # About
 
-This is an indicator that resides in the system tray. It displays an icon that shows which graphics card, either nVidia or Intel, is in use, and allows the user to switch between the two via a GUI menu. No matter which Desktop-Environment is being used. 
+This is an indicator that resides in the system tray. It displays an icon that shows which graphics card, either nVidia or Intel, is in use, and allows the user to switch between the two via a GUI menu.
 
 # Desktop Environments Supported
 
-This program has been tested on and supports the following Desktop-Environments:
-- XFCE
-- KDE
-- Gnome
-- Budgie
-- Cinnamon
-- Mate
-- LXDE
-- LXQT<sup>1</sup>
-
-It has been confirmed to work with the following tiling window managers.
-
--Awesome
-
-It may work with tiling window managers, such as Bspwn and i3, but it has not been tested on them.
-
-<sup>1</sup>This program will run on LXQT. However, an incorrect icon, a gear instead of the GPU logo, is displayed in the system tray. Despite the improper icon, it will switch the GPU's and display notifications properly.
+This program only supports Gnome using Wayland.
 
 # Requirements
 - The appropriate version of Optimus-Switch for your desktop envirnoment [Optimus-Switch Repositories](https://github.com/dglt1).
 - libappindicator-gtk3 package from the Manjaro Community Repository.
 - libappindicator-gtk2 package from the Manjaro Community Repository.
 - libnotify package from the Manjaro Extra Repository.
-
-# Additional requirement for Gnome
-
 - [Kstatusnotifieritem/appindicator](https://extensions.gnome.org/extension/615/appindicator-support/) extension. This "re-adds" the removed system tray. Without this extension enabled, the icon will not show in the top bar or the "system tray" section of Dash-to-Dock.
-
-# Additional requirement for LXQT
-
-- LXQT also requires the install of the `gtk3` package from the Manjaro Extra Repository.
-```
-sudo pacman -S gtk3
-```
 
 # Installation
 
@@ -81,18 +55,12 @@ sudo pacman -S libnotify
 5. Clone this repository to your computer and go to its folder.
 ```
 git clone https://github.com/linesma/manjaroptimus-appindicator.git
-cd manjaroptimus-appindicator
+cd manjaroptimus-appindicator-gdm
 ```
-
-#### If you are using Gnome continue on, if not go to go to the next section.
-
-Gnome requires slightly modified scripts to switch between the GPU's. While they are the same scripts in dglt's Optimus-Switch GDM repository, I have included them here for ease of installation.
-
 6. Make the install script executable.
 ```
 chmod a+x setupgn.py
 ```
-
 7. Run the setup script.
 ```
 sudo ./setupgn.py install
@@ -100,43 +68,7 @@ sudo ./setupgn.py install
 
 The setup script will then copy the files to the required directories and adjust their permissions as needed.
 
-8. Once the install script has finished. Reboot the computer. Manjaro-Optimus Indicator is set to autostart when the computer boots.
-
-#### For Desktop Environments other than Gnome.
-
-6. Make the install script executable.
-```
-chmod a+x setup.py
-```
-
-7. Run the setup script.
-```
-sudo ./setup.py install
-```
-
-The setup script will then copy the files to the required directories and adjust their permissions as needed.
-
-8. Once the install script has finished. Reboot the computer. Manjaro-Optimus Indicator is set to autostart when the computer boots.
-
-#### Awesome Window Manager Instructions.
-
-Follow instructions 1 through 7 above. In order to have it start on boot, do the following:
-
-1. Open the following file in your favorite text editor.
-```
-~/.config/awesome/autorun.sh
-```
-
-2. Add the following line to the end of the file.
-```
-run manjaroptimus-appindicator
-```
-
-3. Save and close the file.
-
-The program will now load when you boot the computer.
-
-4. Reboot the computer to have it load.
+8. Once the install script has finished. Reboot the computer. Manjaro-Optimus Indicator GDM is set to autostart when the computer boots.
 
 #### NOTE:
 
@@ -154,7 +86,7 @@ A. This is not an error. It is notifying the user that the "set-intel" and the "
 
 1. Open the terminal and type.
 ```
-cd manjaroptimus-appindicator
+cd manjaroptimus-appindicator-gdm
 ```
 2. Make the uninstall script executable.
 ```
