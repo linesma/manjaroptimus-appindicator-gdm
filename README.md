@@ -1,17 +1,15 @@
-<img src="https://github.com/linesma/manjaroptimus-appindicator/blob/master/Logo/manjaroptimus-logo02b.png" align="left" width="256" />
+<img src="https://github.com/linesma/manjaroptimus-appindicator-gdm/blob/master/media/logo/manjaroptimus-logo02b.png" align="left" width="256" />
 
-# Manjaro-Optimus Indicator GDM
-## Indicator and GUI switch for Optimus-Switch on Manjaro that works with Gnome running Wayland.
+# manjaroptimus-appindicator-gdm
+## Indicator and GUI switch for optimus-switch-gdm.
 </br>
 
-
-
-![Manjaro-Optimus Indicator](https://github.com/linesma/manjaroptimus-appindicator/blob/master/screenshots/Flow3.jpg)     
+![Manjaro-Optimus Indicator](https://github.com/linesma/manjaroptimus-appindicator-gdm/blob/master/media/screenshots/Flow3.jpg)     
 
 # Acknowledgements
 This was inspired by Martin Wimpress' [Mate Optimus](https://github.com/ubuntu-mate/mate-optimus) project and is a fork of openSUSE's [suseprime-appindicator](https://github.com/openSUSE/suseprime-appindicator) project.
 
-It has been updated to work with the Optimus-Switch program by dglt1, links are in the requirements section, on laptops running Manjaro.
+It has been updated to work with the optimus-switch program by dglt1 on laptops running Manjaro.
 
 Thank you to the authors of the above programs.
 
@@ -21,24 +19,26 @@ Thank you also goes to the members of the Manjaro forums who took the time to he
 
 # About
 
-This is an indicator that resides in the system tray. It displays an icon that shows which graphics card, either nVidia or Intel, is in use, and allows the user to switch between the two via a GUI menu.
+This is an indicator that resides in the system tray. It displays an icon that shows which graphics card, either nVidia or Intel, is in use, and allows the user to switch between the two via a GUI menu. No matter which Desktop-Environment is being used. 
 
 # Desktop Environments Supported
 
-This program only supports Gnome using Wayland.
+This version of manjaroptimus-appindicator only supports GNOME Display Manager.
+For other desktop environments see https://github.com/linesma/manjaroptimus-appindicator
+
 
 # Requirements
-- The appropriate version of Optimus-Switch for your desktop envirnoment [Optimus-Switch Repositories](https://github.com/dglt1).
+- [optimus-switch-gdm](https://github.com/likeadoc/optimus-switch-gdm)
 - libappindicator-gtk3 package from the Manjaro Community Repository.
 - libappindicator-gtk2 package from the Manjaro Community Repository.
 - libnotify package from the Manjaro Extra Repository.
-- [Kstatusnotifieritem/appindicator](https://extensions.gnome.org/extension/615/appindicator-support/) extension. This "re-adds" the removed system tray. Without this extension enabled, the icon will not show in the top bar or the "system tray" section of Dash-to-Dock.
+- [Kstatusnotifieritem/appindicator](https://extensions.gnome.org/extension/615/appindicator-support/) extension.
 
 # Installation
 
 #### Before installation, make a back-up of your system using your favorite back-up tool!!!
 
-1. Install the version of Optimus-Switch for your chosen desktop environment.
+1. Install optimus-switch-gdm.
 
 2. Install libappindicator-gtk3 from the Manjaro Community Repository.
 ```
@@ -52,61 +52,50 @@ sudo pacman -S libappindicator-gtk2
 ```
 sudo pacman -S libnotify
 ```
-5. Clone this repository to your computer and go to its folder.
+5. Clone this repository to your computer.
 ```
-git clone https://github.com/linesma/manjaroptimus-appindicator.git
-cd manjaroptimus-appindicator-gdm
+git clone https://github.com/linesma/manjaroptimus-appindicator-gdm.git
+cd manjaroptimus-appindicator
 ```
+
 6. Make the install script executable.
 ```
-chmod a+x setupgn.py
+chmod a+x setup.py
 ```
+
 7. Run the setup script.
 ```
-sudo ./setupgn.py install
+sudo ./setup.py install
 ```
 
 The setup script will then copy the files to the required directories and adjust their permissions as needed.
 
-8. Once the install script has finished. Reboot the computer. Manjaro-Optimus Indicator GDM is set to autostart when the computer boots.
+8. Once the install script has finished, reboot your computer. manjaroptimus-appindicator-gdm is set to autostart when the computer boots.
+
 
 #### NOTE:
 
 You need to RESTART your laptop to have the graphics card change take effect.
 
-# Troubleshooting
-
-Q. I am getting an error message saying "Removed /etc/systemd/system/graphical.target.wants/disable-nvidia.service" or "Created symlink...."
-
-A. This is not an error. It is notifying the user that the "set-intel" and the "set-nvidia" scripts are changing a systemd service. The script has still run and changed the graphics card. To stop this notification, run the "setupgn.py" file. It will change the "set-intel" and "set-nvidia" scripts to stop these notifications. 
-
 # Uninstall
 
-#### Note: This will not uninstall the Optimus-Switch GPU solution. This only uninstalls this indicator program.
+#### Note: This will not uninstall optimus-switch-gdm. This only uninstalls this indicator program.
 
-1. Open the terminal and type.
+1. Run the uninstall script.
 ```
-cd manjaroptimus-appindicator-gdm
+sudo manjaroptimus-appindicator-uninstall.sh
 ```
-2. Make the uninstall script executable.
-```
-chmod a+x uninstall-moi.sh
-```
-3. Run the uninstall script.
-```
-sudo ./uninstall-moi.sh
-```
-4. Reboot your laptop to have the changes take affect.
+2. Reboot your laptop to have the changes take affect.
 
 
 # Fun Stuff
 
-I have included additional sets of icons in the "more-icons" folder. If you want to use one of these sets instead of the default, just copy the set you want into the '/usr/share/icons/hicolor/symbolic/apps'. For example:
+There are additional sets of icons included in the "icons" folder. If you want to use one of these sets instead of the default, just copy the set you want to '/usr/share/icons/hicolor/symbolic/apps' once installed. For example:
 
 ```
-sudo cp ~/manjaroptimus-appindicator-gdm/more-icons/set01/*.svg /usr/share/icons/hicolor/symbolic/apps
+sudo cp ~/manjaroptimus-appindicator-gdm/src/icons/set01/*.svg /usr/share/icons/hicolor/symbolic/apps
 ```
-The original icons I used in the initial release are included in the folder "more-icons/set-original".
-I will be adding more icon choices in the future.
+The original icons used in the initial release are included in the folder "icons/set06".
+More icons choices may be added in the future.
 
 Enjoy!!!

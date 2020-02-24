@@ -22,18 +22,19 @@ _ = gettext.gettext
 
 APPINDICATOR_ID = 'manjaroptimusindicator'
 
-intel_notif = ('Switching to the Intel iGPU')
+intel_x11_notif = ('Switching to the Intel iGPU (X11)')
+intel_wayland_notif = ('Switching to the Intel iGPU (wayland)')
 nvidia_notif = ('Switching to the nVidia GPU')
 reboot_notif = ('Please reboot for changes to take effect')
 reboot_notifb = ('Your system will now reboot')
 error_head = ('Error occured')
+session = os.environ['XDG_SESSION_TYPE']
 
 drivers = {
     'nvidia corporation': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-nvidia-symbolic.svg',
     'intel open source technology center': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg',
     'other': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-symbolic.svg',
 }
-
 
 def check_current(drivers):
     import subprocess
@@ -68,32 +69,28 @@ def main():
 def build_menu():
     menu = gtk.Menu()
     if (check_current(drivers) != 'nvidia corporation'):
-        item_nvidia = gtk.MenuItem.new_with_label(_('Switch to nVidia GPU'))
+        item_nvidia = gtk.MenuItem.new_with_label(_('Switch to nVidia GPU and reboot'))
         item_nvidia.connect('activate', nvidia)
         menu.append(item_nvidia)
-        item_nvidiab = gtk.MenuItem.new_with_label(_('Switch to nVidia GPU and reboot'))
-        item_nvidiab.connect('activate', nvidiab)
-        menu.append(item_nvidiab)
+        if (session != 'x11'):
+            item_intel_x11 = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (X11) and reboot'))
+            item_intel_x11.connect('activate', intel_x11)
+            menu.append(item_intel_x11)
+        elif (session != 'wayland'):
+            item_intel_wayland = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (wayland) and reboot'))
+            item_intel_wayland.connect('activate', intel_wayland)
+            menu.append(item_intel_wayland)
     if (check_current(drivers) != 'intel open source technology center'):
-        item_intel = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU'))
-        item_intel.connect('activate', intel)
-        menu.append(item_intel)
-        item_intelb = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU and reboot'))
-        item_intelb.connect('activate', intelb)
-        menu.append(item_intelb)
+        item_intel_x11 = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (X11) and reboot'))
+        item_intel_x11.connect('activate', intel_x11)
+        menu.append(item_intelb_x11)
+        item_intel_wayland = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (wayland) and reboot'))
+        item_intel_wayland.connect('activate', intel_wayland)
+        menu.append(item_intelb_wayland) 
     menu.show_all()
     return menu
 
 def nvidia(_):
-    result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_nvidia')
-    if (error):
-        notify.Notification.new(error_head, error.decode("utf-8"), 'dialog-warning').show()
-    elif (result):
-        notify.Notification.new(nvidia_notif, reboot_notif, '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-nvidia-symbolic.svg').show()
-    else:
-        notify.Notification.new(error_head, output.decode("utf-8"), 'dialog-warning').show()
-
-def nvidiab(_):
     result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_nvidia')
     if (error):
         notify.Notification.new(error_head, error.decode("utf-8"), 'dialog-warning').show()
@@ -103,21 +100,22 @@ def nvidiab(_):
     else:
         notify.Notification.new(error_head, output.decode("utf-8"), 'dialog-warning').show()
 
-def intel(_):
-    result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_intel')
+def intel_x11(_):
+    result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_intel_x11')
     if (error):
         notify.Notification.new(error_head, error.decode("utf-8"), 'dialog-warning').show()
     elif (result):
-        notify.Notification.new(intel_notif, reboot_notif, '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg').show()
+        notify.Notification.new(intel_x11_notif, reboot_notifb, '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg').show()
+        glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/reboot.sh')
     else:
         notify.Notification.new(error_head, output.decode("utf-8"), 'dialog-warning').show()
 
-def intelb(_):
-    result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_intel')
+def intel_wayland(_):
+    result, output, error, status = glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/pkexec_intel_wayland')
     if (error):
         notify.Notification.new(error_head, error.decode("utf-8"), 'dialog-warning').show()
     elif (result):
-        notify.Notification.new(intel_notif, reboot_notifb, '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg').show()
+        notify.Notification.new(intel_wayland_notif, reboot_notifb, '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg').show()
         glib.spawn_command_line_sync('/usr/share/manjaroptimus-appindicator/scripts/reboot.sh')
     else:
         notify.Notification.new(error_head, output.decode("utf-8"), 'dialog-warning').show()
