@@ -33,6 +33,7 @@ session = os.environ['XDG_SESSION_TYPE']
 drivers = {
     'nvidia corporation': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-nvidia-symbolic.svg',
     'intel open source technology center': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg',
+    'intel': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg',
     'other': '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-symbolic.svg',
 }
 
@@ -56,7 +57,7 @@ def check_current(drivers):
 def main():
     if (check_current(drivers) == 'nvidia corporation'):
         icon = '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-nvidia-symbolic.svg'
-    elif (check_current(drivers) == 'intel open source technology center'):
+    elif (check_current(drivers) == 'intel open source technology center' or check_current(drivers) == 'intel'):
         icon = '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-intel-symbolic.svg'
     else:
         icon = '/usr/share/icons/hicolor/symbolic/apps/manjaroptimus-symbolic.svg'
@@ -80,7 +81,7 @@ def build_menu():
             item_intel_wayland = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (wayland) and reboot'))
             item_intel_wayland.connect('activate', intel_wayland)
             menu.append(item_intel_wayland)
-    if (check_current(drivers) != 'intel open source technology center'):
+    if (check_current(drivers) != 'intel open source technology center' and check_current(drivers) != 'intel'):
         item_intel_x11 = gtk.MenuItem.new_with_label(_('Switch to Intel iGPU (X11) and reboot'))
         item_intel_x11.connect('activate', intel_x11)
         menu.append(item_intelb_x11)
